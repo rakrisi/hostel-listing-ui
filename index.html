@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HostelHub - Find Your Perfect Stay</title>
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4B70FF',
+                        'primary-dark': '#3A5BCC',
+                        'primary-light': '#7A9AFF',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Pull to refresh hint animation */
+        @keyframes pullDown {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100%); opacity: 0; }
+        }
+        
+        .pull-refresh-hint {
+            animation: pullDown 2s ease-in-out infinite;
+        }
+        
+        /* Shimmer animation */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* Hide autocomplete initially */
+        .autocomplete-list {
+            display: none;
+        }
+        
+        .autocomplete-list.active {
+            display: block;
+        }
+        
+        /* Active nav item */
+        .nav-item.active {
+            color: #4B70FF;
+        }
+        
+        .nav-item.active svg {
+            stroke: #4B70FF;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 min-h-screen">
+    <!-- Pull to Refresh Hint -->
+    <div class="pull-refresh-hint fixed top-2 left-1/2 transform -translate-x-1/2 z-50 bg-white rounded-full px-4 py-2 shadow-lg flex items-center gap-2 text-sm text-gray-600">
+        <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        <span>Pull to refresh</span>
+    </div>
+
+    <!-- Mobile Container -->
+    <div class="max-w-md mx-auto bg-white min-h-screen relative overflow-hidden">
+        
+        <!-- ================================ -->
+        <!-- HEADER - Compact Top Bar -->
+        <!-- ================================ -->
+        <header class="sticky top-0 z-40 glass px-4 py-3 flex items-center justify-between border-b border-gray-100">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/30">
+                    <i data-lucide="home" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-lg font-bold text-gray-800">HostelHub</span>
+            </div>
+            
+            <!-- Profile Icon -->
+            <button class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-gray-200 active:scale-95">
+                <i data-lucide="user" class="w-5 h-5 text-gray-600"></i>
+            </button>
+        </header>
+
+        <!-- ================================ -->
+        <!-- HERO SECTION - Search Focused -->
+        <!-- ================================ -->
+        <section class="px-4 pt-6 pb-8 bg-gradient-to-b from-primary/5 to-white">
+            <!-- Hero Text -->
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Find Your<br><span class="text-primary">Perfect Stay</span></h1>
+                <p class="text-gray-500 text-sm">Discover hostels & PGs near your college</p>
+            </div>
+            
+            <!-- Large Hero Search Box -->
+            <div class="relative">
+                <div class="bg-white rounded-2xl shadow-lg shadow-gray-200/50 p-4 transition-all duration-200 focus-within:shadow-xl focus-within:shadow-primary/10 focus-within:ring-2 focus-within:ring-primary/20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                            <i data-lucide="search" class="w-5 h-5 text-primary"></i>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="Search hostel near college or city..." 
+                            class="flex-1 text-gray-800 placeholder-gray-400 text-base outline-none bg-transparent"
+                            autocomplete="off"
+                        >
+                        <button class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center transition-all duration-200 hover:bg-primary-dark active:scale-95 shadow-lg shadow-primary/30">
+                            <i data-lucide="arrow-right" class="w-5 h-5 text-white"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Location Hint -->
+                    <div class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-primary"></i>
+                        <span class="text-sm text-gray-500">Near me</span>
+                        <span class="text-xs text-gray-400">• Bangalore, Karnataka</span>
+                    </div>
+                </div>
+                
+                <!-- Autocomplete Dropdown -->
+                <div id="autocomplete-list" class="autocomplete-list absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl shadow-gray-200/50 overflow-hidden z-50 border border-gray-100">
+                    <!-- Colleges -->
+                    <div class="px-4 py-2 bg-gray-50">
+                        <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Colleges</span>
+                    </div>
+                    <div class="autocomplete-item px-4 py-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-colors" onclick="selectSuggestion('IIT Bangalore')">
+                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">IIT Bangalore</p>
+                            <p class="text-xs text-gray-400">Engineering College</p>
+                        </div>
+                    </div>
+                    <div class="autocomplete-item px-4 py-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-colors" onclick="selectSuggestion('Christ University')">
+                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="graduation-cap" class="w-4 h-4 text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">Christ University</p>
+                            <p class="text-xs text-gray-400">Multi-discipline University</p>
+                        </div>
+                    </div>
+                    <div class="autocomplete-item px-4 py-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-colors" onclick="selectSuggestion('RV College of Engineering')">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="graduation-cap" class="w-4 h-4 text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">RV College of Engineering</p>
+                            <p class="text-xs text-gray-400">Engineering College</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Cities -->
+                    <div class="px-4 py-2 bg-gray-50 border-t border-gray-100">
+                        <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Cities</span>
+                    </div>
+                    <div class="autocomplete-item px-4 py-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-colors" onclick="selectSuggestion('Bangalore')">
+                        <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-orange-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">Bangalore</p>
+                            <p class="text-xs text-gray-400">Karnataka, India</p>
+                        </div>
+                    </div>
+                    <div class="autocomplete-item px-4 py-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-colors" onclick="selectSuggestion('Pune')">
+                        <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-pink-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">Pune</p>
+                            <p class="text-xs text-gray-400">Maharashtra, India</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================ -->
+        <!-- POPULAR SEARCHES - Chips -->
+        <!-- ================================ -->
+        <section class="px-4 pb-6">
+            <h3 class="text-sm font-semibold text-gray-600 mb-3">Popular Searches</h3>
+            <div class="flex flex-wrap gap-2">
+                <button class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 transition-all duration-200 hover:bg-primary hover:text-white hover:border-primary active:scale-95 shadow-sm">
+                    Near IIT Bangalore
+                </button>
+                <button class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 transition-all duration-200 hover:bg-primary hover:text-white hover:border-primary active:scale-95 shadow-sm">
+                    Koramangala
+                </button>
+                <button class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 transition-all duration-200 hover:bg-primary hover:text-white hover:border-primary active:scale-95 shadow-sm">
+                    HSR Layout
+                </button>
+                <button class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 transition-all duration-200 hover:bg-primary hover:text-white hover:border-primary active:scale-95 shadow-sm">
+                    Indiranagar
+                </button>
+                <button class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 transition-all duration-200 hover:bg-primary hover:text-white hover:border-primary active:scale-95 shadow-sm">
+                    Whitefield
+                </button>
+                <button class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 transition-all duration-200 hover:bg-primary hover:text-white hover:border-primary active:scale-95 shadow-sm">
+                    Near Christ University
+                </button>
+            </div>
+        </section>
+
+        <!-- ================================ -->
+        <!-- QUICK CATEGORIES -->
+        <!-- ================================ -->
+        <section class="px-4 pb-8">
+            <h3 class="text-sm font-semibold text-gray-600 mb-4">Browse by Category</h3>
+            <div class="grid grid-cols-3 gap-3">
+                <!-- Boys Hostel -->
+                <a href="listing.html?type=boys" class="bg-blue-50 rounded-2xl p-4 text-center transition-all duration-200 hover:shadow-lg hover:shadow-blue-100 active:scale-95">
+                    <div class="w-12 h-12 bg-blue-500 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                        <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-800">Boys</p>
+                    <p class="text-xs text-gray-400 mt-1">245 listings</p>
+                </a>
+                
+                <!-- Girls Hostel -->
+                <a href="listing.html?type=girls" class="bg-pink-50 rounded-2xl p-4 text-center transition-all duration-200 hover:shadow-lg hover:shadow-pink-100 active:scale-95">
+                    <div class="w-12 h-12 bg-pink-500 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-lg shadow-pink-500/30">
+                        <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-800">Girls</p>
+                    <p class="text-xs text-gray-400 mt-1">189 listings</p>
+                </a>
+                
+                <!-- Co-ed -->
+                <a href="listing.html?type=coed" class="bg-purple-50 rounded-2xl p-4 text-center transition-all duration-200 hover:shadow-lg hover:shadow-purple-100 active:scale-95">
+                    <div class="w-12 h-12 bg-purple-500 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                        <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-800">Co-ed</p>
+                    <p class="text-xs text-gray-400 mt-1">78 listings</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- ================================ -->
+        <!-- FEATURED HOSTELS -->
+        <!-- ================================ -->
+        <section class="px-4 pb-24">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Featured Stays</h3>
+                <a href="listing.html" class="text-sm text-primary font-medium flex items-center gap-1">
+                    View All
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+            
+            <!-- Horizontal Scroll Cards -->
+            <div class="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
+                <!-- Featured Card 1 -->
+                <a href="detail.html" class="flex-shrink-0 w-64 bg-white rounded-2xl shadow-lg shadow-gray-200/50 overflow-hidden snap-start transition-all duration-200 hover:shadow-xl active:scale-[0.98]">
+                    <div class="relative h-36">
+                        <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&h=250&fit=crop" alt="Hostel" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded-lg">Boys</div>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-white/90 backdrop-blur text-gray-800 text-xs font-medium rounded-lg flex items-center gap-1">
+                            <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                            4.8
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-semibold text-gray-800 mb-1">Sunrise Boys Hostel</h4>
+                        <div class="flex items-center gap-1 text-gray-500 text-xs mb-2">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i>
+                            <span>Koramangala, Bangalore</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-primary font-bold">₹8,500<span class="text-gray-400 font-normal text-xs">/month</span></p>
+                            <div class="flex gap-1">
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="WiFi">
+                                    <i data-lucide="wifi" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="AC">
+                                    <i data-lucide="snowflake" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="Food">
+                                    <i data-lucide="utensils" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Featured Card 2 -->
+                <a href="detail.html" class="flex-shrink-0 w-64 bg-white rounded-2xl shadow-lg shadow-gray-200/50 overflow-hidden snap-start transition-all duration-200 hover:shadow-xl active:scale-[0.98]">
+                    <div class="relative h-36">
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=250&fit=crop" alt="Hostel" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 px-2 py-1 bg-pink-500 text-white text-xs font-medium rounded-lg">Girls</div>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-white/90 backdrop-blur text-gray-800 text-xs font-medium rounded-lg flex items-center gap-1">
+                            <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                            4.9
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-semibold text-gray-800 mb-1">Rose Valley PG</h4>
+                        <div class="flex items-center gap-1 text-gray-500 text-xs mb-2">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i>
+                            <span>HSR Layout, Bangalore</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-primary font-bold">₹9,000<span class="text-gray-400 font-normal text-xs">/month</span></p>
+                            <div class="flex gap-1">
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="WiFi">
+                                    <i data-lucide="wifi" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="AC">
+                                    <i data-lucide="snowflake" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="Food">
+                                    <i data-lucide="utensils" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Featured Card 3 -->
+                <a href="detail.html" class="flex-shrink-0 w-64 bg-white rounded-2xl shadow-lg shadow-gray-200/50 overflow-hidden snap-start transition-all duration-200 hover:shadow-xl active:scale-[0.98]">
+                    <div class="relative h-36">
+                        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=250&fit=crop" alt="Hostel" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 px-2 py-1 bg-purple-500 text-white text-xs font-medium rounded-lg">Co-ed</div>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-white/90 backdrop-blur text-gray-800 text-xs font-medium rounded-lg flex items-center gap-1">
+                            <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                            4.7
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-semibold text-gray-800 mb-1">Urban Nest Co-living</h4>
+                        <div class="flex items-center gap-1 text-gray-500 text-xs mb-2">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i>
+                            <span>Indiranagar, Bangalore</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-primary font-bold">₹12,000<span class="text-gray-400 font-normal text-xs">/month</span></p>
+                            <div class="flex gap-1">
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="WiFi">
+                                    <i data-lucide="wifi" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="AC">
+                                    <i data-lucide="snowflake" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                                <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center" title="Food">
+                                    <i data-lucide="utensils" class="w-3 h-3 text-gray-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ================================ -->
+        <!-- BOTTOM NAVIGATION -->
+        <!-- ================================ -->
+        <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-100 px-6 py-3 flex justify-around items-center z-50 glass">
+            <a href="index.html" class="nav-item active flex flex-col items-center gap-1 transition-all duration-200">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            <a href="listing.html" class="nav-item flex flex-col items-center gap-1 text-gray-400 transition-all duration-200 hover:text-primary">
+                <i data-lucide="search" class="w-6 h-6"></i>
+                <span class="text-xs font-medium">Explore</span>
+            </a>
+            <a href="#" class="nav-item flex flex-col items-center gap-1 text-gray-400 transition-all duration-200 hover:text-primary">
+                <i data-lucide="heart" class="w-6 h-6"></i>
+                <span class="text-xs font-medium">Saved</span>
+            </a>
+            <a href="#" class="nav-item flex flex-col items-center gap-1 text-gray-400 transition-all duration-200 hover:text-primary">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-xs font-medium">Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // Search Input Autocomplete
+        const searchInput = document.getElementById('search-input');
+        const autocompleteList = document.getElementById('autocomplete-list');
+        
+        searchInput.addEventListener('focus', () => {
+            autocompleteList.classList.add('active');
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            // Delay to allow click on autocomplete items
+            setTimeout(() => {
+                autocompleteList.classList.remove('active');
+            }, 200);
+        });
+        
+        searchInput.addEventListener('input', (e) => {
+            if (e.target.value.length > 0) {
+                autocompleteList.classList.add('active');
+            }
+        });
+        
+        function selectSuggestion(value) {
+            searchInput.value = value;
+            autocompleteList.classList.remove('active');
+            // Navigate to listing page with search query
+            window.location.href = `listing.html?search=${encodeURIComponent(value)}`;
+        }
+        
+        // Hide pull refresh hint after 5 seconds
+        setTimeout(() => {
+            document.querySelector('.pull-refresh-hint').style.display = 'none';
+        }, 5000);
+    </script>
+</body>
+</html>

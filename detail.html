@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sunrise Boys Hostel - HostelHub</title>
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4B70FF',
+                        'primary-dark': '#3A5BCC',
+                        'primary-light': '#7A9AFF',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* Image gallery carousel */
+        .gallery {
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+        
+        .gallery::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .gallery-item {
+            scroll-snap-align: start;
+        }
+        
+        /* Floating Action Button - Glassmorphism */
+        .fab {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 min-h-screen">
+    <!-- Mobile Container -->
+    <div class="max-w-md mx-auto bg-white min-h-screen relative pb-24">
+        
+        <!-- ================================ -->
+        <!-- IMAGE GALLERY - Full Width Swipeable -->
+        <!-- ================================ -->
+        <div class="relative">
+            <!-- Gallery Images -->
+            <div class="gallery flex overflow-x-auto">
+                <div class="gallery-item flex-shrink-0 w-full h-72">
+                    <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&h=600&fit=crop" alt="Hostel Room" class="w-full h-full object-cover">
+                </div>
+                <div class="gallery-item flex-shrink-0 w-full h-72">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=600&fit=crop" alt="Hostel Room 2" class="w-full h-full object-cover">
+                </div>
+                <div class="gallery-item flex-shrink-0 w-full h-72">
+                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&h=600&fit=crop" alt="Common Area" class="w-full h-full object-cover">
+                </div>
+                <div class="gallery-item flex-shrink-0 w-full h-72">
+                    <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800&h=600&fit=crop" alt="Bathroom" class="w-full h-full object-cover">
+                </div>
+                <div class="gallery-item flex-shrink-0 w-full h-72">
+                    <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop" alt="Kitchen" class="w-full h-full object-cover">
+                </div>
+            </div>
+            
+            <!-- Gallery Indicators -->
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-white"></span>
+                <span class="w-2 h-2 rounded-full bg-white/50"></span>
+                <span class="w-2 h-2 rounded-full bg-white/50"></span>
+                <span class="w-2 h-2 rounded-full bg-white/50"></span>
+                <span class="w-2 h-2 rounded-full bg-white/50"></span>
+            </div>
+            
+            <!-- Top Bar - Floating -->
+            <div class="absolute top-0 left-0 right-0 p-4 flex items-center justify-between">
+                <a href="listing.html" class="fab w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:bg-white active:scale-95">
+                    <i data-lucide="arrow-left" class="w-5 h-5 text-gray-800"></i>
+                </a>
+                <div class="flex gap-2">
+                    <button class="fab w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:bg-white active:scale-95">
+                        <i data-lucide="share-2" class="w-5 h-5 text-gray-800"></i>
+                    </button>
+                    <button class="fab w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:bg-white active:scale-95">
+                        <i data-lucide="heart" class="w-5 h-5 text-gray-800"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Photo Count Badge -->
+            <div class="absolute bottom-4 right-4 px-3 py-1.5 bg-black/60 text-white text-sm rounded-full flex items-center gap-1.5 backdrop-blur">
+                <i data-lucide="camera" class="w-4 h-4"></i>
+                <span>1/5</span>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- MAIN CONTENT -->
+        <!-- ================================ -->
+        <div class="px-4 pt-5">
+            
+            <!-- ======== HOSTEL NAME & VERIFIED ======== -->
+            <div class="flex items-start justify-between mb-3">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <h1 class="text-xl font-bold text-gray-900">Sunrise Boys Hostel</h1>
+                        <div class="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center" title="Verified">
+                            <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-semibold rounded">Boys</span>
+                        <div class="flex items-center gap-1">
+                            <i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i>
+                            <span class="text-sm font-semibold text-gray-800">4.8</span>
+                            <span class="text-sm text-gray-500">(124 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ======== LOCATION & DISTANCE ======== -->
+            <div class="bg-gray-50 rounded-2xl p-4 mb-5">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-primary"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-800">Koramangala 4th Block, Bangalore</p>
+                        <p class="text-xs text-gray-500 mt-0.5">Near Sony Signal, 80 Feet Road</p>
+                        <div class="flex items-center gap-4 mt-2">
+                            <div class="flex items-center gap-1 text-primary text-sm font-medium">
+                                <i data-lucide="navigation" class="w-4 h-4"></i>
+                                <span>1.2 km from IIT Bangalore</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-gray-500 text-xs">
+                                <i data-lucide="footprints" class="w-3 h-3"></i>
+                                <span>15 min walk</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== ROOM PRICING OPTIONS ======== -->
+            <div class="mb-6">
+                <h3 class="text-base font-semibold text-gray-900 mb-3">Room Options</h3>
+                <div class="space-y-3">
+                    <!-- Single Room -->
+                    <div class="bg-white border border-gray-200 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 hover:border-primary hover:shadow-md cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <i data-lucide="user" class="w-6 h-6 text-primary"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">Single Room</p>
+                                <p class="text-xs text-gray-500">Private room for one</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-primary">₹12,000</p>
+                            <p class="text-xs text-gray-400">/month</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Double Sharing -->
+                    <div class="bg-primary/5 border-2 border-primary rounded-2xl p-4 flex items-center justify-between shadow-lg shadow-primary/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
+                                <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <p class="font-semibold text-gray-800">Double Sharing</p>
+                                    <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-semibold rounded">Popular</span>
+                                </div>
+                                <p class="text-xs text-gray-500">Shared room for two</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-primary">₹8,500</p>
+                            <p class="text-xs text-gray-400">/month</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Triple Sharing -->
+                    <div class="bg-white border border-gray-200 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 hover:border-primary hover:shadow-md cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <i data-lucide="users" class="w-6 h-6 text-primary"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">Triple Sharing</p>
+                                <p class="text-xs text-gray-500">Shared room for three</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-primary">₹6,500</p>
+                            <p class="text-xs text-gray-400">/month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== AMENITIES GRID ======== -->
+            <div class="mb-6">
+                <h3 class="text-base font-semibold text-gray-900 mb-3">Amenities</h3>
+                <div class="grid grid-cols-4 gap-3">
+                    <!-- WiFi -->
+                    <div class="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                            <i data-lucide="wifi" class="w-5 h-5 text-blue-600"></i>
+                        </div>
+                        <p class="text-xs text-gray-700 font-medium">WiFi</p>
+                    </div>
+                    
+                    <!-- AC -->
+                    <div class="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div class="w-10 h-10 bg-cyan-100 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                            <i data-lucide="snowflake" class="w-5 h-5 text-cyan-600"></i>
+                        </div>
+                        <p class="text-xs text-gray-700 font-medium">AC</p>
+                    </div>
+                    
+                    <!-- Food -->
+                    <div class="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div class="w-10 h-10 bg-orange-100 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                            <i data-lucide="utensils" class="w-5 h-5 text-orange-600"></i>
+                        </div>
+                        <p class="text-xs text-gray-700 font-medium">Food</p>
+                    </div>
+                    
+                    <!-- Laundry -->
+                    <div class="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div class="w-10 h-10 bg-purple-100 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                            <i data-lucide="shirt" class="w-5 h-5 text-purple-600"></i>
+                        </div>
+                        <p class="text-xs text-gray-700 font-medium">Laundry</p>
+                    </div>
+                    
+                    <!-- Power Backup -->
+                    <div class="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div class="w-10 h-10 bg-yellow-100 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                            <i data-lucide="zap" class="w-5 h-5 text-yellow-600"></i>
+                        </div>
+                        <p class="text-xs text-gray-700 font-medium">Power</p>
+                    </div>
+                    
+                    <!-- Parking -->
+                    <div class="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div class="w-10 h-10 bg-green-100 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                            <i data-lucide="car" class="w-5 h-5 text-green-600"></i>
+                        </div>
+                        <p class="text-xs text-gray-700 font-medium">Parking</p>
+                    </div>
+                    
+                    <!-- CCTV -->
+                    <div class="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div class="w-10 h-10 bg-red-100 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                            <i data-lucide="cctv" class="w-5 h-5 text-red-600"></i>
+                        </div>
+                        <p class="text-xs text-gray-700 font-medium">CCTV</p>
+                    </div>
+                    
+                    <!-- Gym -->
+                    <div class="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div class="w-10 h-10 bg-pink-100 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                            <i data-lucide="dumbbell" class="w-5 h-5 text-pink-600"></i>
+                        </div>
+                        <p class="text-xs text-gray-700 font-medium">Gym</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== FOOD AVAILABILITY ======== -->
+            <div class="mb-6">
+                <h3 class="text-base font-semibold text-gray-900 mb-3">Food & Meals</h3>
+                <div class="bg-orange-50 rounded-2xl p-4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                            <i data-lucide="utensils" class="w-6 h-6 text-orange-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800">Meals Included</p>
+                            <p class="text-xs text-gray-500">3 meals/day • Veg & Non-veg available</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="bg-white rounded-xl p-3 text-center">
+                            <p class="text-xs text-gray-500 mb-1">Breakfast</p>
+                            <p class="text-sm font-semibold text-gray-800">7-9 AM</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 text-center">
+                            <p class="text-xs text-gray-500 mb-1">Lunch</p>
+                            <p class="text-sm font-semibold text-gray-800">12-2 PM</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 text-center">
+                            <p class="text-xs text-gray-500 mb-1">Dinner</p>
+                            <p class="text-sm font-semibold text-gray-800">7-9 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== RULES & POLICIES ======== -->
+            <div class="mb-6">
+                <h3 class="text-base font-semibold text-gray-900 mb-3">Rules & Policies</h3>
+                <div class="bg-gray-50 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-4 h-4 text-green-600"></i>
+                        </div>
+                        <p class="text-sm text-gray-700">Visitors allowed till 8 PM</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-4 h-4 text-green-600"></i>
+                        </div>
+                        <p class="text-sm text-gray-700">Gate closes at 10 PM</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="x" class="w-4 h-4 text-red-600"></i>
+                        </div>
+                        <p class="text-sm text-gray-700">No smoking inside premises</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="x" class="w-4 h-4 text-red-600"></i>
+                        </div>
+                        <p class="text-sm text-gray-700">No pets allowed</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="info" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <p class="text-sm text-gray-700">1 month security deposit required</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== MAP PREVIEW ======== -->
+            <div class="mb-6">
+                <h3 class="text-base font-semibold text-gray-900 mb-3">Location</h3>
+                <div class="relative rounded-2xl overflow-hidden">
+                    <!-- Placeholder Map Image -->
+                    <img src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/77.6192,12.9346,14,0/400x200@2x?access_token=pk.placeholder" alt="Map" class="w-full h-40 object-cover bg-gray-200">
+                    
+                    <!-- Map Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    
+                    <!-- Open in Maps Button -->
+                    <button class="absolute bottom-3 right-3 px-4 py-2 bg-white rounded-xl text-sm font-semibold text-gray-800 shadow-lg flex items-center gap-2 transition-all hover:bg-gray-50 active:scale-95">
+                        <i data-lucide="navigation" class="w-4 h-4 text-primary"></i>
+                        Get Directions
+                    </button>
+                    
+                    <!-- Location Pin -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-full">
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg">
+                            <i data-lucide="home" class="w-4 h-4 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== REVIEWS ======== -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-semibold text-gray-900">Reviews</h3>
+                    <a href="#" class="text-sm text-primary font-medium">See all (124)</a>
+                </div>
+                
+                <!-- Reviews Scroll -->
+                <div class="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+                    <!-- Review 1 -->
+                    <div class="flex-shrink-0 w-72 bg-gray-50 rounded-2xl p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                A
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">Arjun Kumar</p>
+                                <div class="flex items-center gap-1">
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 leading-relaxed">"Great hostel with excellent facilities. The food is amazing and the staff is very helpful. Highly recommended!"</p>
+                        <p class="text-xs text-gray-400 mt-2">2 weeks ago</p>
+                    </div>
+                    
+                    <!-- Review 2 -->
+                    <div class="flex-shrink-0 w-72 bg-gray-50 rounded-2xl p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                R
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">Rahul Sharma</p>
+                                <div class="flex items-center gap-1">
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 leading-relaxed">"Clean rooms and good WiFi. Location is perfect for college students. Only wish they had a common room."</p>
+                        <p class="text-xs text-gray-400 mt-2">1 month ago</p>
+                    </div>
+                    
+                    <!-- Review 3 -->
+                    <div class="flex-shrink-0 w-72 bg-gray-50 rounded-2xl p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                V
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">Vikram Reddy</p>
+                                <div class="flex items-center gap-1">
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                    <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 leading-relaxed">"Best hostel in Koramangala! Been here for 6 months. The owner is very understanding and helpful."</p>
+                        <p class="text-xs text-gray-400 mt-2">3 months ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== OWNER INFO ======== -->
+            <div class="mb-8 bg-gray-50 rounded-2xl p-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold">
+                        RK
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-semibold text-gray-800">Rajesh Kumar</p>
+                        <p class="text-xs text-gray-500">Property Owner • Responds within 1 hour</p>
+                        <div class="flex items-center gap-1 mt-1">
+                            <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                            <span class="text-xs text-gray-600">4.9 rating • 12 properties</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================================ -->
+        <!-- STICKY BOTTOM BAR -->
+        <!-- ================================ -->
+        <div class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-100 px-4 py-3 flex items-center gap-3 z-50 glass">
+            <!-- Price Summary -->
+            <div class="flex-1">
+                <p class="text-lg font-bold text-primary">₹8,500<span class="text-sm text-gray-400 font-normal">/month</span></p>
+                <p class="text-xs text-gray-500">Double Sharing</p>
+            </div>
+            
+            <!-- Call Button -->
+            <a href="tel:+919876543210" class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/30 transition-all duration-200 hover:bg-green-600 active:scale-95">
+                <i data-lucide="phone" class="w-5 h-5 text-white"></i>
+            </a>
+            
+            <!-- WhatsApp Button -->
+            <a href="https://wa.me/919876543210?text=Hi, I'm interested in Sunrise Boys Hostel" target="_blank" class="flex-1 flex items-center justify-center gap-2 py-3 bg-[#25D366] text-white font-semibold rounded-xl shadow-lg shadow-[#25D366]/30 transition-all duration-200 hover:bg-[#1fb855] active:scale-[0.98]">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // Gallery image counter update
+        const gallery = document.querySelector('.gallery');
+        const indicators = document.querySelectorAll('.gallery + .absolute .flex span');
+        const photoCount = document.querySelector('.absolute.bottom-4.right-4 span');
+        
+        gallery.addEventListener('scroll', () => {
+            const index = Math.round(gallery.scrollLeft / gallery.offsetWidth);
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('bg-white', i === index);
+                indicator.classList.toggle('bg-white/50', i !== index);
+            });
+            photoCount.textContent = `${index + 1}/5`;
+        });
+    </script>
+</body>
+</html>
